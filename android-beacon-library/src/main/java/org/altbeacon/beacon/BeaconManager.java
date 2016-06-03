@@ -672,7 +672,8 @@ public class BeaconManager {
 
     protected static BeaconSimulator beaconSimulator;
 
-    protected static String distanceModelUpdateUrl = "http://data.altbeacon.org/android-distance.json";
+    //this config is old, so use default
+    protected static String distanceModelUpdateUrl = "";//http://data.altbeacon.org/android-distance.json
 
     public static String getDistanceModelUpdateUrl() {
         return distanceModelUpdateUrl;

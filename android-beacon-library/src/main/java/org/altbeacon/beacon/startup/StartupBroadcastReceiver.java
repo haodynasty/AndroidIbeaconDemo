@@ -8,6 +8,9 @@ import android.content.Intent;
 import org.altbeacon.beacon.BeaconManager;
 import org.altbeacon.beacon.logging.LogManager;
 
+/**
+ * this receiver is using for check BeaconManager is available(dead or not), if dead will rebuild
+ */
 @TargetApi(4)
 public class StartupBroadcastReceiver extends BroadcastReceiver
 {

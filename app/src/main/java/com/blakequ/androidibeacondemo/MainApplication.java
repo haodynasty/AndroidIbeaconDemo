@@ -78,7 +78,7 @@ public class MainApplication extends Application implements BootstrapNotifier{
 
             // This call to disable will make it so the activity below only gets launched the first time a beacon is seen (until the next time the app is launched)
             // if you want the Activity to launch every single time beacons come into view, remove this call.
-//            regionBootstrap.disable();
+            regionBootstrap.disable();
             Intent intent = new Intent(this, MainActivity.class);
             // IMPORTANT: in the AndroidManifest.xml definition of this activity, you must set android:launchMode="singleInstance" or you will get two instances
             // created when a user launches the activity manually and it gets launched from here.
@@ -89,7 +89,7 @@ public class MainApplication extends Application implements BootstrapNotifier{
             if (monitoringActivity != null) {
                 // If the Monitoring Activity is visible, we log info about the beacons we have
                 // seen on its display
-                monitoringActivity.logToDisplay("I see a beacon again" + region.getBluetoothAddress());
+                monitoringActivity.logToDisplay("MainApplication didEnterRegion--I see a beacon again" + region.getBluetoothAddress());
             } else {
                 // If we have already seen beacons before, but the monitoring activity is not in
                 // the foreground, we send a notification to the user on subsequent detections.
@@ -103,14 +103,14 @@ public class MainApplication extends Application implements BootstrapNotifier{
     public void didExitRegion(Region region) {
         Toast.makeText(this, "退出了可见范围" + region.getBluetoothAddress(), Toast.LENGTH_SHORT);
         if (monitoringActivity != null) {
-            monitoringActivity.logToDisplay("I no longer see a beacon."+ region.getBluetoothAddress());
+            monitoringActivity.logToDisplay("MainApplication didExitRegion--I no longer see a beacon."+ region.getBluetoothAddress());
         }
     }
 
     @Override
     public void didDetermineStateForRegion(int state, Region region) {
         if (monitoringActivity != null) {
-            monitoringActivity.logToDisplay("I have just switched from seeing/not seeing beacons: " + state+", "+ region.getBluetoothAddress());
+            monitoringActivity.logToDisplay("MainApplication didDetermineStateForRegion--I have just switched from seeing/not seeing beacons: " + state+", "+ region.getBluetoothAddress());
         }
     }
 

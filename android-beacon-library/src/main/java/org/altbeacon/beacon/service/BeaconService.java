@@ -396,6 +396,7 @@ public class BeaconService extends Service {
                     "beacon detected : %s", beacon.toString());
         }
 
+        //record device or update device(using map),using for distance or location changed detect
         beacon = mGattBeaconTracker.track(beacon);
         // If this is a Gatt beacon that should be ignored, it will be set to null as a result of
         // the above
@@ -406,6 +407,7 @@ public class BeaconService extends Service {
             }
         } else {
 
+            //update region changed, will callback MonitorNotifier and MonitorNotifier(by RegionMonitoringState->Callback->BeaconIntentProcessor->MonitorNotifier and MonitorNotifier)
             monitoringStatus.updateNewlyInsideInRegionsContaining(beacon);
 
             List<Region> matchedRegions = null;

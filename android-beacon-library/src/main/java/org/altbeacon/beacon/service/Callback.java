@@ -33,6 +33,9 @@ import org.altbeacon.beacon.logging.LogManager;
 import java.io.IOException;
 import java.io.Serializable;
 
+/**
+ * this callback using for start {@link org.altbeacon.beacon.BeaconIntentProcessor} services.
+ */
 public class Callback implements Serializable {
     private static final String TAG = "Callback";
     private transient Intent intent;

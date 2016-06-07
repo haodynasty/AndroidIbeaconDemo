@@ -145,9 +145,11 @@ public class CycledLeScannerForLollipop extends CycledLeScanner {
             if (mScanDeferredBefore == false && mBackgroundFlag) {
                 setWakeUpAlarm();
             }
+            //notice:using handler to cycle scan device every 1 seconds
             mHandler.postDelayed(new Runnable() {
                 @Override
                 public void run() {
+//                    LogManager.d(TAG, "post delayed scan device");
                     scanLeDevice(true);
                 }
             }, millisecondsUntilStart > 1000 ? 1000 : millisecondsUntilStart);

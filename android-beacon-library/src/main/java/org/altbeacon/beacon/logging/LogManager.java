@@ -34,7 +34,7 @@ public final class LogManager {
         LogManager.logLevel = logLevel;
     }
 
-    private static boolean sVerboseLoggingEnabled = false;
+    private static boolean sVerboseLoggingEnabled = true;
 
     /**
      * Indicates whether verbose logging is enabled.   If not, expensive calculations to create

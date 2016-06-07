@@ -223,6 +223,9 @@ public abstract class CycledLeScanner {
         }
     }
 
+    /**
+     * start schedule stop cycle after start scan device
+     */
     protected void scheduleScanCycleStop() {
         // Stops scanning after a pre-defined scan period.
         long millisecondsUntilStop = mScanCycleStopTime - SystemClock.elapsedRealtime();

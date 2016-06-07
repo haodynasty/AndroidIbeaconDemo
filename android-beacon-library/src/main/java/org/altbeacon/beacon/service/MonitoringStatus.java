@@ -92,10 +92,12 @@ public class MonitoringStatus {
         boolean needsMonitoringStateSaving = false;
         for(Region region : matchingRegions) {
             RegionMonitoringState state = mRegionsStatesMap.get(region);
+//            LogManager.d(TAG, "updateNewlyInsideInRegionsContaining matchingRegions:"+state);
             if (state != null && state.markInside()) {
                 needsMonitoringStateSaving = true;
                 state.getCallback().call(mContext, "monitoringData",
                         new MonitoringData(state.isInside(), region));
+//                LogManager.d(TAG, "updateNewlyInsideInRegionsContaining "+beacon.toString());
             }
         }
         if (needsMonitoringStateSaving) saveMonitoringStatusIfOn();

@@ -505,6 +505,8 @@ public class Beacon implements Parcelable {
         if (mParserIdentifier != null) {
             sb.append(" type "+mParserIdentifier);
         }
+        sb.append(" mac:");
+        sb.append(mBluetoothAddress);
         return sb;
     }
 

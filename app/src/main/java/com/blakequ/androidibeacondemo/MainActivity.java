@@ -10,7 +10,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.os.RemoteException;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
@@ -28,19 +27,13 @@ import com.blakequ.androidibeacondemo.ble.BluetoothUtils;
 
 import org.altbeacon.beacon.Beacon;
 import org.altbeacon.beacon.BeaconConsumer;
-import org.altbeacon.beacon.BeaconManager;
-import org.altbeacon.beacon.MonitorNotifier;
-import org.altbeacon.beacon.RangeNotifier;
-import org.altbeacon.beacon.Region;
-
-import java.util.Collection;
 
 public class MainActivity extends AppCompatActivity implements BeaconConsumer {
     private final String TAG = "MainActivity";
     /** 设置兴趣UUID*/
     public static final String FILTER_UUID = "b9407f30-f5f8-466e-aff9-25556b57fe6d";
     private static final int PERMISSION_REQUEST_COARSE_LOCATION = 1;
-    private BeaconManager beaconManager;
+//    private BeaconManager beaconManager;
     private BluetoothUtils bleUtils;
     private BeaconAdapter mAdapter;
 
@@ -79,14 +72,14 @@ public class MainActivity extends AppCompatActivity implements BeaconConsumer {
         });
         bleUtils = BluetoothUtils.getInstance();
         requestLocationPermission();
-        beaconManager = BeaconManager.getInstanceForApplication(getApplicationContext());
+//        beaconManager = BeaconManager.getInstanceForApplication(getApplicationContext());
         // To detect proprietary beacons, you must add a line like below corresponding to your beacon
         // type.  Do a web search for "setBeaconLayout" to get the proper expression.
         // beaconManager.getBeaconParsers().add(new BeaconParser().
         //        setBeaconLayout("m:2-3=beac,i:4-19,i:20-21,i:22-23,p:24-24,d:25-25"));
 //        beaconManager.getBeaconParsers().clear();
 //        beaconManager.getBeaconParsers().add(new BeaconParser().setBeaconLayout(IBEACON_FORMAT));
-        beaconManager.bind(this);
+//        beaconManager.bind(this);
         if (!BluetoothUtils.isBluetoothLeSupported(this) || bleUtils.isBluetoothOn()){
             bleUtils.askUserToEnableBluetoothIfNeeded(this);
         }
@@ -100,71 +93,74 @@ public class MainActivity extends AppCompatActivity implements BeaconConsumer {
     }
 
     public void logToDisplay(String text){
-        mTvMoniter.setText(text);
+        Message msg = new Message();
+        msg.what = 0;
+        msg.obj = text;
+        handler.sendMessage(msg);
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        beaconManager.unbind(this);
+//        beaconManager.unbind(this);
     }
 
     @Override
     public void onBeaconServiceConnect() {
-        beaconManager.setMonitorNotifier(new MonitorNotifier() {
-            @Override
-            public void didEnterRegion(Region region) {
-                Message msg = new Message();
-                msg.what = 0;
-                msg.obj = "didEnterRegion:"+region.toString();
-                handler.sendMessage(msg);
-                Log.i(TAG, "I just saw an beacon for the first time!"+region.getBluetoothAddress());
-            }
+//        beaconManager.setMonitorNotifier(new MonitorNotifier() {
+//            @Override
+//            public void didEnterRegion(Region region) {
+//                Message msg = new Message();
+//                msg.what = 0;
+//                msg.obj = "didEnterRegion:"+region.toString();
+//                handler.sendMessage(msg);
+//                Log.i(TAG, "I just saw an beacon for the first time!"+region.getBluetoothAddress());
+//            }
+//
+//            @Override
+//            public void didExitRegion(Region region) {
+//                Message msg = new Message();
+//                msg.what = 0;
+//                msg.obj = "didExitRegion:"+region.toString();
+//                handler.sendMessage(msg);
+//                Log.i(TAG, "I no longer see an beacon "+region.getBluetoothAddress());
+//            }
+//
+//            @Override
+//            public void didDetermineStateForRegion(int state, Region region) {
+//                Message msg = new Message();
+//                msg.what = 0;
+//                msg.obj = "didDetermineStateForRegion state:"+(state==0?"OUTSIDE":"INSIDE")+" "+region.toString();
+//                handler.sendMessage(msg);
+//                Log.i(TAG, "I have just switched from seeing/not seeing beacons: " + state);
+//            }
+//        });
+//        beaconManager.setRangeNotifier(new RangeNotifier() {
+//            @Override
+//            public void didRangeBeaconsInRegion(Collection<Beacon> beacons, Region region) {
+//                if (beacons.size() > 0) {
+//                    Beacon beacon = beacons.iterator().next();
+//                    Message msg = new Message();
+//                    msg.what = 1;
+//                    msg.obj = beacon;
+//                    handler.sendMessage(msg);
+//                    Log.i(TAG, "The first beacon I see is about size:"+beacons.size()+", distance:" + beacon.getDistance() + " meters away. mac:"+region.getBluetoothAddress()
+//                            +", address:"+beacon.getBluetoothAddress());
+//                }
+//            }
+//        });
 
-            @Override
-            public void didExitRegion(Region region) {
-                Message msg = new Message();
-                msg.what = 0;
-                msg.obj = "didExitRegion:"+region.toString();
-                handler.sendMessage(msg);
-                Log.i(TAG, "I no longer see an beacon "+region.getBluetoothAddress());
-            }
-
-            @Override
-            public void didDetermineStateForRegion(int state, Region region) {
-                Message msg = new Message();
-                msg.what = 0;
-                msg.obj = "didDetermineStateForRegion state:"+state+" "+region.toString();
-                handler.sendMessage(msg);
-                Log.i(TAG, "I have just switched from seeing/not seeing beacons: " + state);
-            }
-        });
-        beaconManager.setRangeNotifier(new RangeNotifier() {
-            @Override
-            public void didRangeBeaconsInRegion(Collection<Beacon> beacons, Region region) {
-                if (beacons.size() > 0) {
-                    Beacon beacon = beacons.iterator().next();
-                    Message msg = new Message();
-                    msg.what = 1;
-                    msg.obj = beacon;
-                    handler.sendMessage(msg);
-                    Log.i(TAG, "The first beacon I see is about size:"+beacons.size()+", distance:" + beacon.getDistance() + " meters away. mac:"+region.getBluetoothAddress()
-                            +", address:"+beacon.getBluetoothAddress());
-                }
-            }
-        });
-
-        try {
-            beaconManager.startRangingBeaconsInRegion(new Region(FILTER_UUID, null, null, null));
-        } catch (RemoteException e) {
-            e.printStackTrace();
-        }
-
-        try {
-            beaconManager.startMonitoringBeaconsInRegion(new Region(FILTER_UUID, null, null, null));
-        } catch (RemoteException e) {
-            e.printStackTrace();
-        }
+//        try {
+//            beaconManager.startRangingBeaconsInRegion(new Region(FILTER_UUID, null, null, null));
+//        } catch (RemoteException e) {
+//            e.printStackTrace();
+//        }
+//
+//        try {
+//            beaconManager.startMonitoringBeaconsInRegion(new Region(FILTER_UUID, null, null, null));
+//        } catch (RemoteException e) {
+//            e.printStackTrace();
+//        }
     }
 
 
@@ -237,6 +233,7 @@ public class MainActivity extends AppCompatActivity implements BeaconConsumer {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            startActivity(new Intent(this, TestActivity.class));
             return true;
         }
 

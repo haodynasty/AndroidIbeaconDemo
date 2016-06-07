@@ -54,6 +54,7 @@ public class BeaconIntentProcessor extends IntentService {
             rangingData = (RangingData) intent.getExtras().get("rangingData");
         }
 
+        //invoke in MonitoringStatus
         if (rangingData != null) {
             LogManager.d(TAG, "got ranging data");
             if (rangingData.getBeacons() == null) {
@@ -73,6 +74,7 @@ public class BeaconIntentProcessor extends IntentService {
             }
         }
 
+        //invoke in BeaconService(processRangeData)
         if (monitoringData != null) {
             LogManager.d(TAG, "got monitoring data");
             MonitorNotifier notifier = BeaconManager.getInstanceForApplication(this).getMonitoringNotifier();

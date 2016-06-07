@@ -75,4 +75,13 @@ public class RegionMonitoringState implements Serializable {
         }
         return false;
     }
+
+    @Override
+    public String toString() {
+        return "RegionMonitoringState{" +
+                "callback=" + callback +
+                ", inside=" + inside +
+                ", lastSeenTime=" + lastSeenTime +
+                '}';
+    }
 }

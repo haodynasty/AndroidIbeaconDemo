@@ -216,6 +216,8 @@ public class Region implements Parcelable, Serializable {
     public String toString() {
         StringBuilder sb = new StringBuilder();
         int i = 1;
+        sb.append("mUniqueId:");
+        sb.append(mUniqueId);
         for (Identifier identifier: mIdentifiers) {
             if (i > 1) {
                 sb.append(" ");
